@@ -1,0 +1,2253 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laborics — AI zaměstnanci, kteří dodávají výsledky</title>
+    <meta name="description" content="Vytvářejte a formátujte profesionální dokumenty s AI zaměstnanci. Pište, formátujte a exportujte upravené .docx soubory — bez kopírování, bez ručního formátování.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #fafafa;
+            --surface: #ffffff;
+            --surface-2: #f0f0f2;
+            --border: #e2e2e8;
+            --text: #1a1a2e;
+            --text-muted: #6b6b80;
+            --accent: #1a1a2e;
+            --accent-color: #4f46e5;
+            --accent-light: #eef2ff;
+            --accent-glow: rgba(79, 70, 229, 0.08);
+            --white: #ffffff;
+            --font-display: 'Plus Jakarta Sans', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ======================== NAV ======================== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.25rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(250, 250, 250, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        nav.scrolled {
+            border-bottom-color: var(--border);
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.35rem;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-logo span {
+            color: var(--accent-color);
+        }
+
+        .nav-slogan {
+            font-weight: 400;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+            margin-left: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        .nav-login {
+            font-weight: 500 !important;
+            color: var(--text) !important;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.75rem 1.75rem;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.25s;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: #2a2a42;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 30px rgba(26, 26, 46, 0.15);
+        }
+
+        .btn-accent {
+            background: var(--accent-color);
+            color: var(--white);
+        }
+
+        .btn-accent:hover {
+            background: #4338ca;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 30px rgba(79, 70, 229, 0.25);
+        }
+
+        .btn-signup {
+            background: var(--accent-light);
+            color: var(--accent-color);
+            border: 1.5px solid var(--accent-color);
+            font-weight: 700;
+            padding: 0.6rem 1.5rem;
+            font-size: 0.88rem;
+        }
+
+        .btn-signup:hover {
+            background: var(--accent-color);
+            color: var(--white);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.2);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* ======================== HERO ======================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -15%;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-tag {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: clamp(2.8rem, 6.5vw, 5.2rem);
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+            color: var(--text);
+            margin-bottom: 1.75rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.15s forwards;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            background: linear-gradient(135deg, var(--accent-color), #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 580px;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.3s forwards;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.45s forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ======================== SECTIONS ======================== */
+        section {
+            padding: 7rem 2rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-tag {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1.25rem;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            margin-bottom: 1.25rem;
+        }
+
+        .section-desc {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* ======================== DEMO ======================== */
+        .demo {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .demo-screens {
+            margin-top: 3.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .demo-screen {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .demo-screen.reverse {
+            grid-template-columns: 1.4fr 1fr;
+        }
+
+        .demo-screen-text .step-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .step-label .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            color: var(--white);
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: var(--font-display);
+            letter-spacing: 0;
+        }
+
+        .demo-screen-text h3 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-bottom: 0.6rem;
+            line-height: 1.3;
+        }
+
+        .demo-screen-text p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* App window chrome */
+        .app-window {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--bg);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
+        }
+
+        .app-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .app-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+        }
+
+        .app-dot:nth-child(1) { background: #ff6b6b; }
+        .app-dot:nth-child(2) { background: #ffc145; }
+        .app-dot:nth-child(3) { background: #45d483; }
+
+        .app-toolbar-title {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-left: 0.5rem;
+        }
+
+        .app-content {
+            padding: 1.5rem;
+        }
+
+        /* Screen 1: Chat */
+        .screen-chat {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .s-msg {
+            padding: 0.7rem 1rem;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            max-width: 88%;
+        }
+
+        .s-msg.user {
+            background: var(--accent);
+            color: var(--white);
+            align-self: flex-end;
+            border-bottom-right-radius: 3px;
+        }
+
+        .s-msg.ai {
+            background: var(--surface-2);
+            color: var(--text);
+            align-self: flex-start;
+            border-bottom-left-radius: 3px;
+        }
+
+        .s-input {
+            margin-top: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .s-input-field {
+            flex: 1;
+            padding: 0.65rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-family: var(--font-body);
+        }
+
+        .s-input-btn {
+            padding: 0.65rem 1rem;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-family: var(--font-body);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Screen 2: Style setup */
+        .screen-style {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .style-section-label {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .style-themes {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.6rem;
+        }
+
+        .style-theme {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .style-theme.active {
+            border-color: var(--accent-color);
+            background: var(--accent-light);
+        }
+
+        .style-theme-preview {
+            height: 40px;
+            border-radius: 4px;
+            margin-bottom: 0.4rem;
+        }
+
+        .style-theme:nth-child(1) .style-theme-preview {
+            background: linear-gradient(135deg, #1a1a2e 0%, #1a1a2e 30%, #e2e2e8 30%, #e2e2e8 35%, #f5f5f5 35%);
+        }
+
+        .style-theme:nth-child(2) .style-theme-preview {
+            background: linear-gradient(135deg, #0d4f8b 0%, #0d4f8b 30%, #d4e4f5 30%, #d4e4f5 35%, #f8fafc 35%);
+        }
+
+        .style-theme:nth-child(3) .style-theme-preview {
+            background: linear-gradient(135deg, #7c3aed 0%, #7c3aed 30%, #ede9fe 30%, #ede9fe 35%, #faf5ff 35%);
+        }
+
+        .style-theme-name {
+            font-size: 0.7rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .style-or {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            position: relative;
+        }
+
+        .style-or::before,
+        .style-or::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .style-or::before { left: 0; }
+        .style-or::after { right: 0; }
+
+        .style-upload {
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .style-upload:hover {
+            border-color: var(--accent-color);
+        }
+
+        .style-upload-icon {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .style-upload-text {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .style-upload-text strong {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* Screen 3: Result / Storage */
+        .screen-storage {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .storage-breadcrumb {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .storage-breadcrumb span {
+            color: var(--accent-color);
+        }
+
+        .storage-file {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.7rem 0.85rem;
+            border-radius: 8px;
+            transition: background 0.15s;
+        }
+
+        .storage-file:hover {
+            background: var(--surface-2);
+        }
+
+        .storage-file.highlight {
+            background: var(--accent-light);
+            border: 1px solid rgba(79, 70, 229, 0.2);
+        }
+
+        .file-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .file-icon.docx {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .file-icon.pdf {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .file-icon.folder {
+            background: #fef3c7;
+            color: #d97706;
+            font-size: 1rem;
+        }
+
+        .file-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .file-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-meta {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .file-badge {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: #dcfce7;
+            color: #16a34a;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        /* ======================== TWO WAYS ======================== */
+        .two-ways-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 3.5rem;
+        }
+
+        .way-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2.5rem;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .way-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(79, 70, 229, 0.08);
+        }
+
+        .way-number {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent-color);
+            letter-spacing: 0.1em;
+            margin-bottom: 1.25rem;
+        }
+
+        .way-icon {
+            width: 52px;
+            height: 52px;
+            background: var(--accent-light);
+            border: 1px solid rgba(79, 70, 229, 0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.35rem;
+        }
+
+        .way-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--text);
+            margin-bottom: 0.75rem;
+        }
+
+        .way-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* ======================== HOW IT WORKS ======================== */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3.5rem;
+        }
+
+        .step-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 2.25rem;
+            position: relative;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .step-card:hover {
+            border-color: rgba(79, 70, 229, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .step-number {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent-color);
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-light);
+            border: 1px solid rgba(79, 70, 229, 0.15);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+        }
+
+        .step-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 0.75rem;
+        }
+
+        .step-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        /* ======================== COMPARISON ======================== */
+        .comparison {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table {
+            margin-top: 3.5rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-row.header {
+            background: var(--bg);
+        }
+
+        .comparison-cell {
+            padding: 1.1rem 1.5rem;
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        .comparison-cell:not(:first-child) {
+            text-align: center;
+            border-left: 1px solid var(--border);
+        }
+
+        .comparison-row.header .comparison-cell {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text);
+            padding: 1.25rem 1.5rem;
+        }
+
+        .comparison-row.header .comparison-cell:last-child {
+            color: var(--accent-color);
+        }
+
+        .check {
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .cross {
+            color: #ccc;
+            font-size: 1.1rem;
+        }
+
+        /* ======================== COST COMPARE ======================== */
+        .cost-compare {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            margin-top: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cost-card {
+            flex: 1;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+        }
+
+        .cost-card.manual {
+            opacity: 0.7;
+        }
+
+        .cost-card.laborics {
+            border-color: var(--accent-color);
+            box-shadow: 0 8px 30px rgba(79, 70, 229, 0.1);
+        }
+
+        .cost-card-label {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+        }
+
+        .cost-card.laborics .cost-card-label {
+            color: var(--accent-color);
+        }
+
+        .cost-card-price {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 2.25rem;
+            color: var(--text);
+            line-height: 1;
+            margin-bottom: 0.35rem;
+        }
+
+        .cost-card.laborics .cost-card-price {
+            color: var(--accent-color);
+        }
+
+        .cost-card-detail {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            margin-bottom: 1.25rem;
+        }
+
+        .cost-card-list {
+            list-style: none;
+        }
+
+        .cost-card-list li {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            padding: 0.35rem 0;
+            padding-left: 1.25rem;
+            position: relative;
+        }
+
+        .cost-card.manual .cost-card-list li::before {
+            content: '\2715';
+            position: absolute;
+            left: 0;
+            color: #ccc;
+            font-size: 0.75rem;
+        }
+
+        .cost-card.laborics .cost-card-list li::before {
+            content: '\2713';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 0.75rem;
+        }
+
+        .cost-vs {
+            display: flex;
+            align-items: center;
+            padding: 0 1.25rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .savings-bar {
+            margin-top: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .savings-bar-inner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2.5rem;
+            padding: 1.5rem 2rem;
+            background: var(--accent-light);
+            border: 1px solid rgba(79, 70, 229, 0.15);
+            border-radius: 10px;
+        }
+
+        .savings-stat {
+            text-align: center;
+        }
+
+        .savings-stat-number {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            line-height: 1;
+            margin-bottom: 0.2rem;
+        }
+
+        .savings-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        .savings-divider {
+            width: 1px;
+            height: 36px;
+            background: rgba(79, 70, 229, 0.2);
+        }
+
+        /* ======================== PRICING ======================== */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 3.5rem;
+        }
+
+        .price-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .price-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .price-card.featured {
+            border-color: var(--accent-color);
+            position: relative;
+            box-shadow: 0 12px 40px rgba(79, 70, 229, 0.1);
+        }
+
+        .price-card.featured::before {
+            content: 'NEJPOPUL\00c1RN\011aJ\0160\00cd';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            background: var(--accent-color);
+            color: var(--white);
+            padding: 4px 14px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        .price-name {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .price-docs {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .price-amount {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 3rem;
+            color: var(--text);
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .price-card.featured .price-amount {
+            color: var(--accent-color);
+        }
+
+        .price-per {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .price-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .price-features li {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 300;
+        }
+
+        .price-features li::before {
+            content: '~';
+            font-family: var(--font-mono);
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .price-card .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* Free trial banner */
+        .free-trial {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            padding: 1.25rem 1.75rem;
+            background: var(--accent-light);
+            border: 1px solid rgba(79, 70, 229, 0.2);
+            border-radius: 10px;
+            margin-bottom: 2.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .free-trial-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .free-trial-text {
+            flex: 1;
+            font-size: 0.95rem;
+            color: var(--text);
+            font-weight: 300;
+            line-height: 1.5;
+        }
+
+        .free-trial-text strong {
+            font-weight: 600;
+        }
+
+        .free-trial .btn {
+            flex-shrink: 0;
+        }
+
+        /* Credit examples */
+        .credit-examples {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .credit-examples-title {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--text);
+            margin-bottom: 1.25rem;
+        }
+
+        .credit-examples-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .credit-example {
+            text-align: center;
+            padding: 1rem 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg);
+        }
+
+        .credit-example-amount {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.75rem;
+            color: var(--accent-color);
+            margin-bottom: 0.35rem;
+        }
+
+        .credit-example-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            line-height: 1.4;
+        }
+
+        .credit-examples-note {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        .price-save {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: #dcfce7;
+            color: #16a34a;
+            font-weight: 600;
+            margin-left: 0.35rem;
+            vertical-align: middle;
+        }
+
+        .topup-note {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            padding: 1rem 1.5rem;
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            background: var(--bg);
+        }
+
+        /* ======================== FAQ ======================== */
+        .faq-list {
+            margin-top: 3.5rem;
+            max-width: 700px;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .faq-q {
+            width: 100%;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.05rem;
+            text-align: left;
+            padding: 1.5rem 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.2s;
+        }
+
+        .faq-q:hover {
+            color: var(--accent-color);
+        }
+
+        .faq-q::after {
+            content: '+';
+            font-family: var(--font-mono);
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .faq-item.open .faq-q::after {
+            transform: rotate(45deg);
+            color: var(--accent-color);
+        }
+
+        .faq-a {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s;
+        }
+
+        .faq-item.open .faq-a {
+            max-height: 200px;
+            padding-bottom: 1.5rem;
+        }
+
+        .faq-a p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* ======================== CTA ======================== */
+        .final-cta {
+            text-align: center;
+            padding: 8rem 2rem;
+            position: relative;
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        .final-cta::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .final-cta .section-tag {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .final-cta .section-title {
+            max-width: 600px;
+            margin: 0 auto 1rem;
+            color: var(--white);
+        }
+
+        .final-cta .section-desc {
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .final-cta .btn-accent {
+            background: var(--white);
+            color: var(--accent);
+        }
+
+        .final-cta .btn-accent:hover {
+            background: #f0f0f2;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ======================== FOOTER ======================== */
+        footer {
+            padding: 3rem 2rem 2rem;
+            border-top: 1px solid var(--border);
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 3rem;
+        }
+
+        .footer-company {
+            max-width: 380px;
+        }
+
+        .footer-brand {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-brand span {
+            color: var(--accent-color);
+        }
+
+        .footer-legal-info {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        .footer-legal-info strong {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .footer-contact {
+            margin-top: 0.75rem;
+        }
+
+        .footer-contact a {
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-contact a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .footer-links-col {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .footer-links-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.35rem;
+        }
+
+        .footer-links-col a {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 300;
+            transition: color 0.2s;
+        }
+
+        .footer-links-col a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-bottom {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        /* ======================== SECTION DIVIDERS ======================== */
+        .section-divider {
+            height: 1px;
+            max-width: 200px;
+            margin: 0 auto;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+        }
+
+        .bg-alt {
+            background: var(--surface);
+        }
+
+        .bg-alt-dark {
+            background: var(--surface-2);
+        }
+
+        /* ======================== COOKIE BANNER ======================== */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.08);
+            padding: 1.25rem 2rem;
+            display: none;
+            animation: slideUp 0.4s ease;
+        }
+
+        .cookie-banner.show {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .cookie-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cookie-text {
+            flex: 1;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .cookie-text a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .cookie-text a:hover {
+            text-decoration: underline;
+        }
+
+        .cookie-actions {
+            display: flex;
+            gap: 0.6rem;
+            flex-shrink: 0;
+        }
+
+        .cookie-btn {
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 0.55rem 1.25rem;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .cookie-btn-accept {
+            background: var(--accent-color);
+            color: var(--white);
+        }
+
+        .cookie-btn-accept:hover {
+            background: #4338ca;
+        }
+
+        .cookie-btn-reject {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+        }
+
+        .cookie-btn-reject:hover {
+            border-color: var(--text-muted);
+            color: var(--text);
+        }
+
+        @media (max-width: 900px) {
+            .cookie-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cookie-actions {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* ======================== SCROLL REVEAL ======================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ======================== RESPONSIVE ======================== */
+        @media (max-width: 900px) {
+            .two-ways-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-screen,
+            .demo-screen.reverse {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-screen.reverse .app-window {
+                order: -1;
+            }
+
+            .steps-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                max-width: 440px;
+            }
+
+            .cost-compare {
+                flex-direction: column;
+                max-width: 400px;
+            }
+
+            .cost-vs {
+                justify-content: center;
+                padding: 0.75rem 0;
+            }
+
+            .savings-bar-inner {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .savings-divider {
+                width: 60px;
+                height: 1px;
+            }
+
+            .credit-examples-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .free-trial {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .comparison-row {
+                grid-template-columns: 2fr 1fr 1fr;
+            }
+
+            .comparison-cell {
+                padding: 0.85rem 0.75rem;
+                font-size: 0.82rem;
+            }
+
+            .nav-links a:not(.btn) {
+                display: none;
+            }
+
+            .footer-top {
+                flex-direction: column;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav id="nav">
+        <a href="#" class="nav-logo">Laborics<span>.</span> <span class="nav-slogan">Delegate. Done.</span></a>
+        <div class="nav-links">
+            <a href="#how-it-works">Jak to funguje</a>
+            <a href="#pricing">Ceník</a>
+            <a href="#faq">FAQ</a>
+            <a href="#" class="nav-login">Přihlásit se</a>
+            <a href="#" class="btn btn-signup">Registrace zdarma</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-tag">Váš první AI zaměstnanec</div>
+            <h1>Vytvářejte a formátujte dokumenty <em>na jednom místě</em></h1>
+            <p class="hero-sub">
+                Pište s AI, formátujte okamžitě, stáhněte hotový .docx.
+                Žádné kopírování. Žádné ruční formátování. Prostě delegujte a dostanete výsledek.
+            </p>
+            <div class="hero-actions">
+                <a href="#pricing" class="btn btn-primary">Začít</a>
+                <a href="#demo" class="btn btn-outline">Podívejte se</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- DEMO -->
+    <section class="demo" id="demo">
+        <div class="container">
+            <div class="reveal">
+                <div class="section-tag">Podívejte se</div>
+                <h2 class="section-title">Vaše dokumentové pracoviště</h2>
+                <p class="section-desc">
+                    Pište, stylujte a exportujte — vše v jednom rozhraní. Takhle to vypadá v praxi.
+                </p>
+            </div>
+
+            <div class="demo-screens">
+
+                <!-- Screen 1: Chat / Write -->
+                <div class="demo-screen reveal">
+                    <div class="demo-screen-text">
+                        <div class="step-label"><span class="step-num">1</span> Pište</div>
+                        <h3>Vytvořte dokument konverzací</h3>
+                        <p>Popište, co potřebujete — směrnici, smlouvu, report nebo nabídku. Váš AI zaměstnanec napíše obsah, zeptá se na upřesnění a dokument postupně vyladí. Stejně jako práce se skutečným kolegou.</p>
+                    </div>
+                    <div class="app-window">
+                        <div class="app-toolbar">
+                            <div class="app-dot"></div>
+                            <div class="app-dot"></div>
+                            <div class="app-dot"></div>
+                            <span class="app-toolbar-title">Laborics — Nový dokument</span>
+                        </div>
+                        <div class="app-content screen-chat">
+                            <div class="s-msg user">Napiš zásady ochrany osobních údajů pro můj SaaS startup. Musí obsahovat GDPR, uchovávání dat a sdílení s třetími stranami.</div>
+                            <div class="s-msg ai">Rozumím. Připravím kompletní zásady ochrany osobních údajů. Pár otázek: Jak se jmenuje vaše společnost a zpracováváte nějaká zvláštní data (zdravotní, biometrická atd.)?</div>
+                            <div class="s-msg user">Společnost je Acme s.r.o. Žádné zvláštní kategorie, jen standardní údaje — emaily, analytika používání.</div>
+                            <div class="s-msg ai">Píšu vaše zásady ochrany osobních údajů. Zahrnu 8 sekcí: sběr dat, právní základ, práva GDPR, politika uchovávání, sdílení s třetími stranami, cookies, bezpečnostní opatření a kontakt. Moment...</div>
+                            <div class="s-input">
+                                <div class="s-input-field">Přidej sekci o zpracování dat pomocí AI...</div>
+                                <div class="s-input-btn">Odeslat</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Screen 2: Style setup -->
+                <div class="demo-screen reverse reveal">
+                    <div class="app-window">
+                        <div class="app-toolbar">
+                            <div class="app-dot"></div>
+                            <div class="app-dot"></div>
+                            <div class="app-dot"></div>
+                            <span class="app-toolbar-title">Laborics — Formátování</span>
+                        </div>
+                        <div class="app-content screen-style">
+                            <div class="style-section-label">Vyberte šablonu formátování</div>
+                            <div class="style-themes">
+                                <div class="style-theme active">
+                                    <div class="style-theme-preview"></div>
+                                    <div class="style-theme-name">Firemní</div>
+                                </div>
+                                <div class="style-theme">
+                                    <div class="style-theme-preview"></div>
+                                    <div class="style-theme-name">Právní</div>
+                                </div>
+                                <div class="style-theme">
+                                    <div class="style-theme-preview"></div>
+                                    <div class="style-theme-name">Moderní</div>
+                                </div>
+                            </div>
+                            <div class="style-or">nebo</div>
+                            <div class="style-upload">
+                                <div class="style-upload-icon">&#8593;</div>
+                                <div class="style-upload-text"><strong>Nahrajte vzorový dokument</strong><br>Přizpůsobíme formátování podle něj</div>
+                            </div>
+                            <div class="style-section-label" style="margin-top: 0.25rem;">Dodatečné pokyny</div>
+                            <div class="s-input" style="margin-top: 0">
+                                <div class="s-input-field">Přidej víceúrovňové seznamy pod nadpisy H2, očísluj všechny sekce...</div>
+                                <div class="s-input-btn">Použít</div>
+                            </div>
+                            <div class="s-msg ai" style="max-width: 100%; align-self: stretch; margin-top: 0.25rem;">Rozumím. Firemní šablona + víceúrovňové číslované seznamy pod každým H2, všechny sekce očíslovány (1, 1.1, 1.1.1). Přidávám titulní stranu a obsah. Zpracovávám...</div>
+                        </div>
+                    </div>
+                    <div class="demo-screen-text">
+                        <div class="step-label"><span class="step-num">2</span> Stylujte</div>
+                        <h3>Vyberte šablonu nebo nahrajte vlastní vzor</h3>
+                        <p>Vybírejte z předpřipravených šablon — nebo nahrajte libovolný .docx soubor jako referenci. Váš AI zaměstnanec převezme jeho styl: fonty, nadpisy, barvy, rozložení. Vaše značka, vaše pravidla.</p>
+                    </div>
+                </div>
+
+                <!-- Screen 3: Result / Storage -->
+                <div class="demo-screen reveal">
+                    <div class="demo-screen-text">
+                        <div class="step-label"><span class="step-num">3</span> Hotovo</div>
+                        <h3>Naformátovaný dokument se uloží do vašeho úložiště</h3>
+                        <p>Váš hotový .docx se objeví ve vašem osobním cloudovém úložišti. Stáhněte ho, sdílejte odkaz, nebo ho pošlete zpět k úpravám — váš zaměstnanec bude iterovat, dokud nebudete spokojeni.</p>
+                    </div>
+                    <div class="app-window">
+                        <div class="app-toolbar">
+                            <div class="app-dot"></div>
+                            <div class="app-dot"></div>
+                            <div class="app-dot"></div>
+                            <span class="app-toolbar-title">Laborics — Moje dokumenty</span>
+                        </div>
+                        <div class="app-content screen-storage">
+                            <div class="storage-breadcrumb">
+                                <span>Moje dokumenty</span> / Projekty / Acme s.r.o.
+                            </div>
+                            <div class="storage-file">
+                                <div class="file-icon folder">&#128193;</div>
+                                <div class="file-info">
+                                    <div class="file-name">Smlouvy</div>
+                                    <div class="file-meta">3 soubory</div>
+                                </div>
+                            </div>
+                            <div class="storage-file highlight">
+                                <div class="file-icon docx">.docx</div>
+                                <div class="file-info">
+                                    <div class="file-name">Acme_sro_Zasady_ochrany_udaju_v1.docx</div>
+                                    <div class="file-meta">12 stran &middot; 48 KB &middot; právě teď</div>
+                                </div>
+                                <div class="file-badge">NOVÉ</div>
+                            </div>
+                            <div class="storage-file">
+                                <div class="file-icon pdf">.pdf</div>
+                                <div class="file-info">
+                                    <div class="file-name">Acme_sro_Zasady_ochrany_udaju_v1.pdf</div>
+                                    <div class="file-meta">12 stran &middot; 156 KB &middot; právě teď</div>
+                                </div>
+                            </div>
+                            <div class="storage-file">
+                                <div class="file-icon docx">.docx</div>
+                                <div class="file-info">
+                                    <div class="file-name">Obchodni_podminky_navrh.docx</div>
+                                    <div class="file-meta">8 stran &middot; 32 KB &middot; před 2 dny</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- TWO WAYS -->
+    <div class="section-divider"></div>
+    <section id="how-it-works">
+        <div class="container">
+            <div class="reveal">
+                <div class="section-tag">Dva způsoby práce</div>
+                <h2 class="section-title">Vytvořte od nuly nebo<br>nahrajte svůj návrh</h2>
+                <p class="section-desc">
+                    Váš AI zaměstnanec zvládne obojí — přesně jako skutečný asistent.
+                </p>
+            </div>
+
+            <div class="two-ways-grid reveal">
+                <div class="way-card">
+                    <div class="way-number">MOŽNOST A</div>
+                    <div class="way-icon">&#9998;</div>
+                    <div class="way-title">Vytvořit a naformátovat</div>
+                    <div class="way-desc">
+                        Napište dokument od nuly přímo v Laborics. Popište, co potřebujete — váš zaměstnanec napíše obsah, aplikuje formátování a vyexportuje hotový .docx. Jako ChatGPT, ale výstupem je hotový dokument.
+                    </div>
+                </div>
+
+                <div class="way-card">
+                    <div class="way-number">MOŽNOST B</div>
+                    <div class="way-icon">&#8593;</div>
+                    <div class="way-title">Nahrát a přeformátovat</div>
+                    <div class="way-desc">
+                        Už máte návrh nebo surový výstup z AI? Nahrajte svůj .docx a popište požadované formátování. Váš zaměstnanec dokument přestrukturuje, nastyluje a vyladí — a pošle zpět.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <div class="section-divider"></div>
+    <section class="bg-alt">
+        <div class="container">
+            <div class="reveal">
+                <div class="section-tag">Jak to funguje</div>
+                <h2 class="section-title">Tři kroky k hotovému<br>dokumentu</h2>
+            </div>
+
+            <div class="steps-grid reveal">
+                <div class="step-card">
+                    <div class="step-number">KROK 01</div>
+                    <div class="step-icon">&#128172;</div>
+                    <div class="step-title">Popište nebo nahrajte</div>
+                    <div class="step-desc">
+                        Řekněte zaměstnanci, co napsat — nebo nahrajte existující .docx k formátování. Přidejte požadavky: styl, strukturu, branding.
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">KROK 02</div>
+                    <div class="step-icon">&#9881;</div>
+                    <div class="step-title">AI zaměstnanec pracuje</div>
+                    <div class="step-desc">
+                        Váš zaměstnanec vytvoří nebo přeformátuje dokument: nadpisy, tabulky, fonty, mezery, titulní stranu, obsah — vše zařídí.
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">KROK 03</div>
+                    <div class="step-icon">&#10003;</div>
+                    <div class="step-title">Stáhněte nebo iterujte</div>
+                    <div class="step-desc">
+                        Stáhněte hotový .docx soubor. Potřebujete změny? Řekněte zaměstnanci — opraví to, dokud nebudete spokojeni.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPARISON VS CHATGPT -->
+    <div class="section-divider"></div>
+    <section class="comparison">
+        <div class="container">
+            <div class="reveal">
+                <div class="section-tag">Laborics vs ChatGPT</div>
+                <h2 class="section-title">ChatGPT píše text.<br>Laborics dodává dokumenty.</h2>
+            </div>
+
+            <div class="comparison-table reveal">
+                <div class="comparison-row header">
+                    <div class="comparison-cell">Funkce</div>
+                    <div class="comparison-cell">ChatGPT</div>
+                    <div class="comparison-cell">Laborics</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Generování textu pomocí AI</div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Export jako formátovaný .docx</div>
+                    <div class="comparison-cell"><span class="cross">&#10005;</span></div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Vlastní fonty, styly a branding</div>
+                    <div class="comparison-cell"><span class="cross">&#10005;</span></div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Tabulky, obsah, titulní strana</div>
+                    <div class="comparison-cell"><span class="cross">&#10005;</span></div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Nahrání a přeformátování dokumentů</div>
+                    <div class="comparison-cell"><span class="cross">&#10005;</span></div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Přizpůsobení stylu podle referenčního souboru</div>
+                    <div class="comparison-cell"><span class="cross">&#10005;</span></div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Cloudové úložiště dokumentů</div>
+                    <div class="comparison-cell"><span class="cross">&#10005;</span></div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Export do PDF vedle .docx</div>
+                    <div class="comparison-cell"><span class="cross">&#10005;</span></div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Bez kopírování a vkládání</div>
+                    <div class="comparison-cell"><span class="cross">&#10005;</span></div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPARISON VS MANUAL -->
+    <div class="section-divider"></div>
+    <section>
+        <div class="container">
+            <div class="reveal">
+                <div class="section-tag">Laborics vs ruční práce</div>
+                <h2 class="section-title">Ušetřete čas i peníze<br>na každém dokumentu</h2>
+                <p class="section-desc">10stránkový dokument s textem, tabulkami a formátováním — takhle vycházejí čísla.</p>
+            </div>
+
+            <div class="cost-compare reveal">
+                <div class="cost-card manual">
+                    <div class="cost-card-label">Ruční formátování</div>
+                    <div class="cost-card-price">&euro;8–13</div>
+                    <div class="cost-card-detail">30–60 min práce zaměstnance</div>
+                    <ul class="cost-card-list">
+                        <li>Dostupné jen v pracovní době</li>
+                        <li>Jeden úkol najednou</li>
+                        <li>Nekonzistentní výsledky</li>
+                        <li>Revize zaberou další čas</li>
+                    </ul>
+                </div>
+                <div class="cost-vs">vs</div>
+                <div class="cost-card laborics">
+                    <div class="cost-card-label">Laborics</div>
+                    <div class="cost-card-price">&euro;6</div>
+                    <div class="cost-card-detail">~60 kreditů, hotovo za minuty</div>
+                    <ul class="cost-card-list">
+                        <li>Dostupné 24/7</li>
+                        <li>Více dokumentů paralelně</li>
+                        <li>Konzistentní kvalita pokaždé</li>
+                        <li>Revize v ceně</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="savings-bar reveal">
+                <div class="savings-bar-inner">
+                    <div class="savings-stat">
+                        <div class="savings-stat-number">40–60 %</div>
+                        <div class="savings-stat-label">levnější než ruční práce</div>
+                    </div>
+                    <div class="savings-divider"></div>
+                    <div class="savings-stat">
+                        <div class="savings-stat-number">10x</div>
+                        <div class="savings-stat-label">rychlejší dodání</div>
+                    </div>
+                    <div class="savings-divider"></div>
+                    <div class="savings-stat">
+                        <div class="savings-stat-number">24/7</div>
+                        <div class="savings-stat-label">vždy k dispozici</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <div class="section-divider"></div>
+    <section id="pricing" class="bg-alt">
+        <div class="container">
+            <div class="reveal">
+                <div class="section-tag">Ceník</div>
+                <h2 class="section-title">Jednoduché balíčky kreditů</h2>
+                <p class="section-desc">
+                    Kupte kredity, využijte je na libovolný úkol. Před zahájením práce vždy vidíte odhad — žádná překvapení.
+                </p>
+            </div>
+
+            <!-- Free trial banner -->
+            <div class="free-trial reveal">
+                <div class="free-trial-icon">&#9889;</div>
+                <div class="free-trial-text">
+                    <strong>Vyzkoušejte zdarma.</strong> Přidejte kartu a získejte <strong>50 kreditů</strong> na testování se skutečnými dokumenty — žádný poplatek, dokud nekoupíte balíček.
+                </div>
+                <a href="#" class="btn btn-accent">Začít zdarma</a>
+            </div>
+
+            <div class="pricing-grid reveal">
+                <div class="price-card">
+                    <div class="price-name">Starter</div>
+                    <div class="price-docs">50 kreditů</div>
+                    <div class="price-amount">&euro;5</div>
+                    <div class="price-per">&euro;0,10 za kredit &middot; bez DPH</div>
+                    <ul class="price-features">
+                        <li>Vytvoření nebo nahrání .docx</li>
+                        <li>Kompletní formátování a styly</li>
+                        <li>Revize v ceně</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline">Získat Starter</a>
+                </div>
+
+                <div class="price-card featured">
+                    <div class="price-name">Standard</div>
+                    <div class="price-docs">170 kreditů</div>
+                    <div class="price-amount">&euro;15</div>
+                    <div class="price-per">&euro;0,088 za kredit <span class="price-save">sleva 12 %</span> &middot; bez DPH</div>
+                    <ul class="price-features">
+                        <li>Vše ze Starter</li>
+                        <li>Podpora firemních šablon</li>
+                        <li>Prioritní zpracování</li>
+                    </ul>
+                    <a href="#" class="btn btn-accent">Získat Standard</a>
+                </div>
+
+                <div class="price-card">
+                    <div class="price-name">Pro</div>
+                    <div class="price-docs">625 kreditů</div>
+                    <div class="price-amount">&euro;50</div>
+                    <div class="price-per">&euro;0,08 za kredit <span class="price-save">sleva 20 %</span> &middot; bez DPH</div>
+                    <ul class="price-features">
+                        <li>Vše ze Standard</li>
+                        <li>Dedikovaný AI zaměstnanec</li>
+                        <li>Týmový přístup</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline">Získat Pro</a>
+                </div>
+            </div>
+
+            <div class="topup-note reveal">
+                Svůj zůstatek můžete kdykoli dobít libovolným množstvím kreditů.
+            </div>
+
+            <!-- Credit examples -->
+            <div class="credit-examples reveal">
+                <div class="credit-examples-title">Kolik kreditů stojí jeden úkol?</div>
+                <div class="credit-examples-grid">
+                    <div class="credit-example">
+                        <div class="credit-example-amount">~20</div>
+                        <div class="credit-example-desc">Naformátovat 5stránkový dokument</div>
+                    </div>
+                    <div class="credit-example">
+                        <div class="credit-example-amount">~60</div>
+                        <div class="credit-example-desc">Napsat a naformátovat 10stránkový report</div>
+                    </div>
+                    <div class="credit-example">
+                        <div class="credit-example-amount">~100</div>
+                        <div class="credit-example-desc">Vytvořit 15stránkovou směrnici s obsahem</div>
+                    </div>
+                    <div class="credit-example">
+                        <div class="credit-example-amount">~180</div>
+                        <div class="credit-example-desc">Přeformátovat 50stránkový report s tabulkami</div>
+                    </div>
+                </div>
+                <div class="credit-examples-note">Kredity se účtují podle skutečné spotřeby. Nikdy neexpirují — využijte je, kdy chcete.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <div class="section-divider"></div>
+    <section id="faq">
+        <div class="container">
+            <div class="reveal">
+                <div class="section-tag">FAQ</div>
+                <h2 class="section-title">Časté dotazy</h2>
+            </div>
+
+            <div class="faq-list reveal">
+                <div class="faq-item">
+                    <button class="faq-q">Čím se to liší od ChatGPT nebo Claude?</button>
+                    <div class="faq-a">
+                        <p>ChatGPT a Claude generují surový text, který pak kopírujete do Wordu a ručně formátujete. Laborics tohle celé přeskočí — popíšete, co potřebujete, a váš AI zaměstnanec dodá hotový .docx soubor se správnými styly, nadpisy, tabulkami a rozložením. Výstupem je hotový dokument, ne odpověď z chatu.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">Mohu vytvářet dokumenty od nuly, nebo jen přeformátovat existující?</button>
+                    <div class="faq-a">
+                        <p>Obojí. Můžete popsat dokument běžným jazykem — „napiš mi 5stránkovou investiční nabídku pro fintech startup" — a dostanete kompletně napsaný a naformátovaný .docx. Nebo nahrajte existující dokument a požádejte AI zaměstnance o změnu stylu, opravu rozložení, aplikaci brandingu nebo restrukturalizaci obsahu.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">Co když výsledek není přesně to, co chci?</button>
+                    <div class="faq-a">
+                        <p>Můžete iterovat. Po obdržení dokumentu dejte zpětnou vazbu běžným jazykem — „zvětši nadpisy", „přidej obsah", „změň tón na formálnější" — a váš AI zaměstnanec dokument upraví. Každá iterace spotřebuje kredity, ale úpravy jsou typicky velmi lehké.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">Jaké formáty souborů podporujete?</button>
+                    <div class="faq-a">
+                        <p>Aktuálně podporujeme .docx (Microsoft Word) pro vstup i výstup, s dostupným exportem do PDF. Rozšiřujeme podporu formátů podle toho, co naši uživatelé potřebují nejvíce.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">Jak rychle dostanu svůj dokument?</button>
+                    <div class="faq-a">
+                        <p>Většina dokumentů je hotová během několika minut. Delší nebo složitější dokumenty — jako 30stránkový report s tabulkami a grafy — mohou trvat trochu déle, ale typicky dostanete výsledek mnohem rychleji, než kdybyste to dělali sami.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">Expirují kredity?</button>
+                    <div class="faq-a">
+                        <p>Ne. Vaše kredity nikdy neexpirují. Kupte balíček teď a využijte ho, kdy potřebujete — žádný spěch, žádné termíny.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">Jsou moje data v bezpečí?</button>
+                    <div class="faq-a">
+                        <p>Ano. Vaše dokumenty jsou šifrované při přenosu i v úložišti. Zpracováváme je v izolovaných prostředích a nikdy nepoužíváme váš obsah k trénování AI. Všechny soubory jsou uloženy ve vašem osobním úložišti — máte plnou kontrolu a můžete je kdykoli smazat z dashboardu.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">Mohu Laborics použít pro jakýkoli typ dokumentu?</button>
+                    <div class="faq-a">
+                        <p>Ano — smlouvy, nabídky, reporty, směrnice, prezentace, manuály, dopisy, faktury a další. Pokud to může být .docx, váš AI zaměstnanec to dokáže vytvořit nebo naformátovat. Pracujeme napříč všemi odvětvími a typy dokumentů.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="final-cta">
+        <div class="container reveal">
+            <div class="section-tag">Připraveni začít?</div>
+            <h2 class="section-title">Přestaňte formátovat.<br>Začněte delegovat.</h2>
+            <p class="section-desc">
+                Váš AI zaměstnanec je připraven. Pište, formátujte a stahujte hotové dokumenty — vše na jednom místě.
+            </p>
+            <a href="#pricing" class="btn btn-accent">Začít</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-top">
+        <div class="footer-company">
+            <div class="footer-brand">Laborics<span>.</span> Delegate. Done.</div>
+            <div class="footer-legal-info">
+                Provozovatel: <strong>Reload dev s.r.o.</strong><br>
+                IČO: 24831905 &middot; DIČ: CZ699006763<br>
+                Vinohradská 2133/138, Vinohrady, 130 00 Praha 3<br>
+                Zapsaná v obchodním rejstříku vedeném Městským soudem v Praze
+            </div>
+            <div class="footer-contact">
+                <a href="mailto:hello@laborics.com">hello@laborics.com</a>
+            </div>
+        </div>
+        <div class="footer-links">
+            <div class="footer-links-col">
+                <div class="footer-links-title">Právní</div>
+                <a href="terms-cs.html">Obchodní podmínky</a>
+                <a href="privacy-cs.html">Ochrana osobních údajů</a>
+                <a href="cookies-cs.html">Zásady cookies</a>
+            </div>
+            <div class="footer-links-col">
+                <div class="footer-links-title">Jazyk</div>
+                <a href="index.html">English</a>
+                <a href="cs.html"><strong>Česky</strong></a>
+            </div>
+        </div>
+        </div>
+        <div class="footer-bottom">
+            Všechny ceny jsou uvedeny bez DPH. DPH bude vypočteno při platbě podle vaší lokace. Firmy z EU s platným DIČ mohou nakupovat bez DPH.
+        </div>
+    </footer>
+
+    <!-- COOKIE BANNER -->
+    <div class="cookie-banner" id="cookieBanner">
+        <div class="cookie-inner">
+            <div class="cookie-text">
+                Používáme nezbytné cookies pro fungování stránky. Rádi bychom také použili analytické cookies, abychom porozuměli tomu, jak Laborics používáte, a zlepšili váš zážitek. <a href="cookies-cs.html">Zjistit více</a>
+            </div>
+            <div class="cookie-actions">
+                <button class="cookie-btn cookie-btn-reject" onclick="cookieConsent('reject')">Odmítnout volitelné</button>
+                <button class="cookie-btn cookie-btn-accept" onclick="cookieConsent('accept')">Přijmout vše</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cookie consent
+        function cookieConsent(choice) {
+            localStorage.setItem('cookie_consent', choice);
+            document.getElementById('cookieBanner').classList.remove('show');
+        }
+
+        if (!localStorage.getItem('cookie_consent')) {
+            document.getElementById('cookieBanner').classList.add('show');
+        }
+
+        // Nav scroll effect
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Scroll reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        reveals.forEach(el => observer.observe(el));
+
+        // FAQ toggle
+        document.querySelectorAll('.faq-q').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+    </script>
+
+</body>
+</html>

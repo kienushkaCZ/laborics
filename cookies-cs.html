@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zásady cookies — Laborics</title>
+    <meta name="description" content="Zásady cookies služby Laborics — jaké cookies používáme a jak je spravovat.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #fafafa;
+            --surface: #ffffff;
+            --border: #e2e2e8;
+            --text: #1a1a2e;
+            --text-muted: #6b6b80;
+            --accent-color: #4f46e5;
+            --accent-light: #eef2ff;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        nav {
+            padding: 1.25rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 1.35rem;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-logo span { color: var(--accent-color); }
+
+        .nav-back {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-back:hover { color: var(--text); }
+
+        .policy-container {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 4rem 2rem 6rem;
+        }
+
+        .policy-container h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.5rem;
+        }
+
+        .policy-meta {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .policy-container h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        .policy-container h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .policy-container p {
+            margin-bottom: 1rem;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .policy-container ul, .policy-container ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        .policy-container li {
+            margin-bottom: 0.4rem;
+            font-size: 0.95rem;
+        }
+
+        .policy-container a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .policy-container a:hover {
+            text-decoration: underline;
+        }
+
+        .cookie-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0 1.5rem;
+            font-size: 0.88rem;
+        }
+
+        .cookie-table th, .cookie-table td {
+            text-align: left;
+            padding: 0.7rem 0.85rem;
+            border: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        .cookie-table th {
+            background: var(--accent-light);
+            font-weight: 600;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .cookie-type {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .cookie-type.essential {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .cookie-type.functional {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .cookie-type.analytics {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin: 0 0.75rem;
+        }
+
+        footer a:hover { color: var(--text); }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="cs.html" class="nav-logo">Laborics<span>.</span></a>
+    <a href="cs.html" class="nav-back">&larr; Zpět na hlavní stránku</a>
+</nav>
+
+<div class="policy-container">
+
+<h1>Zásady cookies</h1>
+<p class="policy-meta">Datum účinnosti: 1. února 2026 &middot; Poslední aktualizace: 1. února 2026</p>
+
+<p>Tyto zásady cookies vysvětlují, jak společnost <strong>Reload dev s.r.o.</strong> („my") používá cookies a podobné technologie na webových stránkách a platformě Laborics („Služba"). Tyto zásady je třeba číst společně s našimi <a href="privacy-cs.html">Zásadami ochrany osobních údajů</a>.</p>
+
+<h2>1. Co jsou cookies</h2>
+
+<p>Cookies jsou malé textové soubory uložené na vašem zařízení při návštěvě webové stránky. Pomáhají stránce zapamatovat si vaše preference, udržet vás přihlášené a porozumět tomu, jak službu používáte. Některé cookies jsou nezbytné pro fungování stránky; jiné nám pomáhají zlepšovat váš zážitek.</p>
+
+<h2>2. Typy cookies, které používáme</h2>
+
+<h3>Nezbytné cookies <span class="cookie-type essential">Povinné</span></h3>
+<p>Tyto cookies jsou nezbytné pro fungování Služby. Nelze je zakázat. Zajišťují ověření, bezpečnost a základní funkčnost.</p>
+
+<table class="cookie-table">
+    <thead>
+        <tr>
+            <th>Cookie</th>
+            <th>Účel</th>
+            <th>Doba platnosti</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>session_id</code></td>
+            <td>Udržuje vaši přihlašovací relaci</td>
+            <td>Relace / 30 dní</td>
+        </tr>
+        <tr>
+            <td><code>csrf_token</code></td>
+            <td>Ochrana proti podvržení požadavku mezi stránkami</td>
+            <td>Relace</td>
+        </tr>
+        <tr>
+            <td><code>cookie_consent</code></td>
+            <td>Ukládá vaše preference cookies</td>
+            <td>12 měsíců</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Funkční cookies <span class="cookie-type functional">Volitelné</span></h3>
+<p>Tyto cookies si pamatují vaše preference (jako volbu jazyka) pro personalizovanější zážitek.</p>
+
+<table class="cookie-table">
+    <thead>
+        <tr>
+            <th>Cookie</th>
+            <th>Účel</th>
+            <th>Doba platnosti</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>lang</code></td>
+            <td>Zapamatuje vaši jazykovou preferenci</td>
+            <td>12 měsíců</td>
+        </tr>
+        <tr>
+            <td><code>theme</code></td>
+            <td>Zapamatuje vaše preference zobrazení</td>
+            <td>12 měsíců</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Analytické cookies <span class="cookie-type analytics">Volitelné</span></h3>
+<p>Tyto cookies nám pomáhají porozumět tomu, jak návštěvníci Službu používají, abychom ji mohli zlepšovat. Všechna data jsou anonymizována. Tyto cookies se nastavují pouze s vaším souhlasem.</p>
+
+<table class="cookie-table">
+    <thead>
+        <tr>
+            <th>Cookie</th>
+            <th>Poskytovatel</th>
+            <th>Účel</th>
+            <th>Doba platnosti</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>_ga</code>, <code>_ga_*</code></td>
+            <td>Google Analytics</td>
+            <td>Rozlišení návštěvníků, sledování zobrazení stránek a zdrojů návštěvnosti</td>
+            <td>Až 26 měsíců</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>3. Cookies třetích stran</h2>
+
+<p>Některé cookies nastavují služby třetích stran, které používáme:</p>
+
+<ul>
+    <li><strong>Stripe</strong> — může nastavovat cookies pro prevenci podvodů a zpracování plateb při interakci s platební bránou. Viz <a href="https://stripe.com/cookies-policy/legal" target="_blank" rel="noopener">Zásady cookies Stripe</a>.</li>
+    <li><strong>Google Analytics</strong> — používáno pro anonymizovanou analýzu návštěvnosti (pouze s vaším souhlasem). Viz <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Zásady ochrany soukromí Google</a>.</li>
+</ul>
+
+<h2>4. Správa vašich preferencí cookies</h2>
+
+<p>Při první návštěvě Služby vám banner pro souhlas s cookies umožní zvolit, které volitelné cookies přijmete. Své preference můžete kdykoli změnit kliknutím na odkaz „Nastavení cookies" v zápatí stránky.</p>
+
+<p>Cookies můžete také ovládat prostřednictvím nastavení prohlížeče:</p>
+
+<ul>
+    <li><strong>Chrome</strong>: Nastavení → Soukromí a zabezpečení → Soubory cookie</li>
+    <li><strong>Firefox</strong>: Nastavení → Soukromí a zabezpečení → Cookies</li>
+    <li><strong>Safari</strong>: Předvolby → Soukromí → Soubory cookie</li>
+    <li><strong>Edge</strong>: Nastavení → Soubory cookie a oprávnění webů</li>
+</ul>
+
+<p>Blokování nezbytných cookies může znemožnit používání Služby.</p>
+
+<h2>5. Do Not Track</h2>
+
+<p>Některé prohlížeče odesílají signál „Do Not Track" (DNT). Tento signál respektujeme — pokud váš prohlížeč odesílá DNT, volitelné analytické cookies nenačteme bez ohledu na vaši volbu v banneru souhlasu.</p>
+
+<h2>6. Změny těchto zásad</h2>
+
+<p>Tyto zásady cookies můžeme aktualizovat při přidání nebo odebrání cookies nebo při změně právních předpisů. Datum „Poslední aktualizace" nahoře odráží nejnovější revizi.</p>
+
+<h2>7. Kontakt</h2>
+
+<p>Máte-li dotazy ohledně používání cookies:</p>
+<p>
+    <strong>Reload dev s.r.o.</strong><br>
+    Vinohradská 2133/138, Vinohrady, 130 00 Praha 3, Česká republika<br>
+    E-mail: <a href="mailto:hello@laborics.com">hello@laborics.com</a>
+</p>
+
+</div>
+
+<footer>
+    <a href="terms-cs.html">Podmínky</a>
+    <a href="privacy-cs.html">Ochrana údajů</a>
+    <a href="cookies-cs.html"><strong>Cookies</strong></a>
+    <a href="cs.html">Domů</a>
+</footer>
+
+</body>
+</html>

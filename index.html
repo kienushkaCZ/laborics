@@ -1,0 +1,2264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laborics — AI Employees That Deliver Results</title>
+    <meta name="description" content="Create and format professional documents with AI employees. Write, format, and export polished .docx files — no copy-paste, no manual formatting.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #fafafa;
+            --surface: #ffffff;
+            --surface-2: #f0f0f2;
+            --border: #e2e2e8;
+            --text: #1a1a2e;
+            --text-muted: #6b6b80;
+            --accent: #1a1a2e;
+            --accent-color: #4f46e5;
+            --accent-light: #eef2ff;
+            --accent-glow: rgba(79, 70, 229, 0.08);
+            --white: #ffffff;
+            --font-display: 'Plus Jakarta Sans', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ======================== NAV ======================== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.25rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(250, 250, 250, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        nav.scrolled {
+            border-bottom-color: var(--border);
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.35rem;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-logo span {
+            color: var(--accent-color);
+        }
+
+        .nav-slogan {
+            font-weight: 400;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+            margin-left: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        .nav-login {
+            font-weight: 500 !important;
+            color: var(--text) !important;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.75rem 1.75rem;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.25s;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: #2a2a42;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 30px rgba(26, 26, 46, 0.15);
+        }
+
+        .btn-accent {
+            background: var(--accent-color);
+            color: var(--white);
+        }
+
+        .btn-accent:hover {
+            background: #4338ca;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 30px rgba(79, 70, 229, 0.25);
+        }
+
+        .btn-signup {
+            background: var(--accent-light);
+            color: var(--accent-color);
+            border: 1.5px solid var(--accent-color);
+            font-weight: 700;
+            padding: 0.6rem 1.5rem;
+            font-size: 0.88rem;
+        }
+
+        .btn-signup:hover {
+            background: var(--accent-color);
+            color: var(--white);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.2);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* ======================== HERO ======================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -15%;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-tag {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: clamp(2.8rem, 6.5vw, 5.2rem);
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+            color: var(--text);
+            margin-bottom: 1.75rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.15s forwards;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            background: linear-gradient(135deg, var(--accent-color), #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 580px;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.3s forwards;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.45s forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ======================== SECTIONS ======================== */
+        section {
+            padding: 7rem 2rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-tag {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1.25rem;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            margin-bottom: 1.25rem;
+        }
+
+        .section-desc {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* ======================== DEMO ======================== */
+        .demo {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .demo-screens {
+            margin-top: 3.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .demo-screen {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .demo-screen.reverse {
+            grid-template-columns: 1.4fr 1fr;
+        }
+
+        .demo-screen-text .step-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .step-label .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            color: var(--white);
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: var(--font-display);
+            letter-spacing: 0;
+        }
+
+        .demo-screen-text h3 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-bottom: 0.6rem;
+            line-height: 1.3;
+        }
+
+        .demo-screen-text p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* App window chrome */
+        .app-window {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--bg);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
+        }
+
+        .app-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .app-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+        }
+
+        .app-dot:nth-child(1) { background: #ff6b6b; }
+        .app-dot:nth-child(2) { background: #ffc145; }
+        .app-dot:nth-child(3) { background: #45d483; }
+
+        .app-toolbar-title {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-left: 0.5rem;
+        }
+
+        .app-content {
+            padding: 1.5rem;
+        }
+
+        /* Screen 1: Chat */
+        .screen-chat {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .s-msg {
+            padding: 0.7rem 1rem;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            max-width: 88%;
+        }
+
+        .s-msg.user {
+            background: var(--accent);
+            color: var(--white);
+            align-self: flex-end;
+            border-bottom-right-radius: 3px;
+        }
+
+        .s-msg.ai {
+            background: var(--surface-2);
+            color: var(--text);
+            align-self: flex-start;
+            border-bottom-left-radius: 3px;
+        }
+
+        .s-input {
+            margin-top: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .s-input-field {
+            flex: 1;
+            padding: 0.65rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-family: var(--font-body);
+        }
+
+        .s-input-btn {
+            padding: 0.65rem 1rem;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-family: var(--font-body);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Screen 2: Style setup */
+        .screen-style {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .style-section-label {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .style-themes {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.6rem;
+        }
+
+        .style-theme {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .style-theme.active {
+            border-color: var(--accent-color);
+            background: var(--accent-light);
+        }
+
+        .style-theme-preview {
+            height: 40px;
+            border-radius: 4px;
+            margin-bottom: 0.4rem;
+        }
+
+        .style-theme:nth-child(1) .style-theme-preview {
+            background: linear-gradient(135deg, #1a1a2e 0%, #1a1a2e 30%, #e2e2e8 30%, #e2e2e8 35%, #f5f5f5 35%);
+        }
+
+        .style-theme:nth-child(2) .style-theme-preview {
+            background: linear-gradient(135deg, #0d4f8b 0%, #0d4f8b 30%, #d4e4f5 30%, #d4e4f5 35%, #f8fafc 35%);
+        }
+
+        .style-theme:nth-child(3) .style-theme-preview {
+            background: linear-gradient(135deg, #7c3aed 0%, #7c3aed 30%, #ede9fe 30%, #ede9fe 35%, #faf5ff 35%);
+        }
+
+        .style-theme-name {
+            font-size: 0.7rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .style-or {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            position: relative;
+        }
+
+        .style-or::before,
+        .style-or::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .style-or::before { left: 0; }
+        .style-or::after { right: 0; }
+
+        .style-upload {
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .style-upload:hover {
+            border-color: var(--accent-color);
+        }
+
+        .style-upload-icon {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .style-upload-text {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .style-upload-text strong {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* Screen 3: Result / Storage */
+        .screen-storage {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .storage-breadcrumb {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .storage-breadcrumb span {
+            color: var(--accent-color);
+        }
+
+        .storage-file {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.7rem 0.85rem;
+            border-radius: 8px;
+            transition: background 0.15s;
+        }
+
+        .storage-file:hover {
+            background: var(--surface-2);
+        }
+
+        .storage-file.highlight {
+            background: var(--accent-light);
+            border: 1px solid rgba(79, 70, 229, 0.2);
+        }
+
+        .file-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .file-icon.docx {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .file-icon.pdf {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .file-icon.folder {
+            background: #fef3c7;
+            color: #d97706;
+            font-size: 1rem;
+        }
+
+        .file-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .file-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-meta {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .file-badge {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: #dcfce7;
+            color: #16a34a;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        /* ======================== TWO WAYS ======================== */
+        .two-ways-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 3.5rem;
+        }
+
+        .way-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2.5rem;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .way-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(79, 70, 229, 0.08);
+        }
+
+        .way-number {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent-color);
+            letter-spacing: 0.1em;
+            margin-bottom: 1.25rem;
+        }
+
+        .way-icon {
+            width: 52px;
+            height: 52px;
+            background: var(--accent-light);
+            border: 1px solid rgba(79, 70, 229, 0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.35rem;
+        }
+
+        .way-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--text);
+            margin-bottom: 0.75rem;
+        }
+
+        .way-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        .way-or {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* ======================== HOW IT WORKS ======================== */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3.5rem;
+        }
+
+        .step-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 2.25rem;
+            position: relative;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .step-card:hover {
+            border-color: rgba(79, 70, 229, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .step-number {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent-color);
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-light);
+            border: 1px solid rgba(79, 70, 229, 0.15);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+        }
+
+        .step-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 0.75rem;
+        }
+
+        .step-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        /* ======================== COMPARISON ======================== */
+        .comparison {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table {
+            margin-top: 3.5rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-row.header {
+            background: var(--bg);
+        }
+
+        .comparison-cell {
+            padding: 1.1rem 1.5rem;
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        .comparison-cell:not(:first-child) {
+            text-align: center;
+            border-left: 1px solid var(--border);
+        }
+
+        .comparison-row.header .comparison-cell {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text);
+            padding: 1.25rem 1.5rem;
+        }
+
+        .comparison-row.header .comparison-cell:last-child {
+            color: var(--accent-color);
+        }
+
+        .check {
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .cross {
+            color: #ccc;
+            font-size: 1.1rem;
+        }
+
+        /* ======================== COST COMPARE ======================== */
+        .cost-compare {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            margin-top: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cost-card {
+            flex: 1;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+        }
+
+        .cost-card.manual {
+            opacity: 0.7;
+        }
+
+        .cost-card.laborics {
+            border-color: var(--accent-color);
+            box-shadow: 0 8px 30px rgba(79, 70, 229, 0.1);
+        }
+
+        .cost-card-label {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+        }
+
+        .cost-card.laborics .cost-card-label {
+            color: var(--accent-color);
+        }
+
+        .cost-card-price {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 2.25rem;
+            color: var(--text);
+            line-height: 1;
+            margin-bottom: 0.35rem;
+        }
+
+        .cost-card.laborics .cost-card-price {
+            color: var(--accent-color);
+        }
+
+        .cost-card-detail {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            margin-bottom: 1.25rem;
+        }
+
+        .cost-card-list {
+            list-style: none;
+        }
+
+        .cost-card-list li {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            padding: 0.35rem 0;
+            padding-left: 1.25rem;
+            position: relative;
+        }
+
+        .cost-card.manual .cost-card-list li::before {
+            content: '\2715';
+            position: absolute;
+            left: 0;
+            color: #ccc;
+            font-size: 0.75rem;
+        }
+
+        .cost-card.laborics .cost-card-list li::before {
+            content: '\2713';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 0.75rem;
+        }
+
+        .cost-vs {
+            display: flex;
+            align-items: center;
+            padding: 0 1.25rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .savings-bar {
+            margin-top: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .savings-bar-inner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2.5rem;
+            padding: 1.5rem 2rem;
+            background: var(--accent-light);
+            border: 1px solid rgba(79, 70, 229, 0.15);
+            border-radius: 10px;
+        }
+
+        .savings-stat {
+            text-align: center;
+        }
+
+        .savings-stat-number {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            line-height: 1;
+            margin-bottom: 0.2rem;
+        }
+
+        .savings-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        .savings-divider {
+            width: 1px;
+            height: 36px;
+            background: rgba(79, 70, 229, 0.2);
+        }
+
+        /* ======================== PRICING ======================== */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 3.5rem;
+        }
+
+        .price-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .price-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .price-card.featured {
+            border-color: var(--accent-color);
+            position: relative;
+            box-shadow: 0 12px 40px rgba(79, 70, 229, 0.1);
+        }
+
+        .price-card.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            background: var(--accent-color);
+            color: var(--white);
+            padding: 4px 14px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        .price-name {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .price-docs {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .price-amount {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 3rem;
+            color: var(--text);
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .price-card.featured .price-amount {
+            color: var(--accent-color);
+        }
+
+        .price-per {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .price-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .price-features li {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 300;
+        }
+
+        .price-features li::before {
+            content: '~';
+            font-family: var(--font-mono);
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .price-card .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* Free trial banner */
+        .free-trial {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            padding: 1.25rem 1.75rem;
+            background: var(--accent-light);
+            border: 1px solid rgba(79, 70, 229, 0.2);
+            border-radius: 10px;
+            margin-bottom: 2.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .free-trial-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .free-trial-text {
+            flex: 1;
+            font-size: 0.95rem;
+            color: var(--text);
+            font-weight: 300;
+            line-height: 1.5;
+        }
+
+        .free-trial-text strong {
+            font-weight: 600;
+        }
+
+        .free-trial .btn {
+            flex-shrink: 0;
+        }
+
+        /* Credit examples */
+        .credit-examples {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .credit-examples-title {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--text);
+            margin-bottom: 1.25rem;
+        }
+
+        .credit-examples-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .credit-example {
+            text-align: center;
+            padding: 1rem 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg);
+        }
+
+        .credit-example-amount {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.75rem;
+            color: var(--accent-color);
+            margin-bottom: 0.35rem;
+        }
+
+        .credit-example-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            line-height: 1.4;
+        }
+
+        .credit-examples-note {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        .price-save {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: #dcfce7;
+            color: #16a34a;
+            font-weight: 600;
+            margin-left: 0.35rem;
+            vertical-align: middle;
+        }
+
+        .topup-note {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            padding: 1rem 1.5rem;
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            background: var(--bg);
+        }
+
+        /* ======================== FAQ ======================== */
+        .faq-list {
+            margin-top: 3.5rem;
+            max-width: 700px;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .faq-q {
+            width: 100%;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.05rem;
+            text-align: left;
+            padding: 1.5rem 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.2s;
+        }
+
+        .faq-q:hover {
+            color: var(--accent-color);
+        }
+
+        .faq-q::after {
+            content: '+';
+            font-family: var(--font-mono);
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .faq-item.open .faq-q::after {
+            transform: rotate(45deg);
+            color: var(--accent-color);
+        }
+
+        .faq-a {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s;
+        }
+
+        .faq-item.open .faq-a {
+            max-height: 200px;
+            padding-bottom: 1.5rem;
+        }
+
+        .faq-a p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* ======================== CTA ======================== */
+        .final-cta {
+            text-align: center;
+            padding: 8rem 2rem;
+            position: relative;
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        .final-cta::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .final-cta .section-tag {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .final-cta .section-title {
+            max-width: 600px;
+            margin: 0 auto 1rem;
+            color: var(--white);
+        }
+
+        .final-cta .section-desc {
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .final-cta .btn-accent {
+            background: var(--white);
+            color: var(--accent);
+        }
+
+        .final-cta .btn-accent:hover {
+            background: #f0f0f2;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ======================== FOOTER ======================== */
+        footer {
+            padding: 3rem 2rem 2rem;
+            border-top: 1px solid var(--border);
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 3rem;
+        }
+
+        .footer-company {
+            max-width: 380px;
+        }
+
+        .footer-brand {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-brand span {
+            color: var(--accent-color);
+        }
+
+        .footer-legal-info {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        .footer-legal-info strong {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .footer-contact {
+            margin-top: 0.75rem;
+        }
+
+        .footer-contact a {
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-contact a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .footer-links-col {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .footer-links-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.35rem;
+        }
+
+        .footer-links-col a {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 300;
+            transition: color 0.2s;
+        }
+
+        .footer-links-col a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-bottom {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        /* ======================== SECTION DIVIDERS ======================== */
+        .section-divider {
+            height: 1px;
+            max-width: 200px;
+            margin: 0 auto;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+        }
+
+        section:not(.demo):not(.comparison):not(.final-cta) + .section-divider {
+            display: block;
+        }
+
+        .bg-alt {
+            background: var(--surface);
+        }
+
+        .bg-alt-dark {
+            background: var(--surface-2);
+        }
+
+        /* ======================== COOKIE BANNER ======================== */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.08);
+            padding: 1.25rem 2rem;
+            display: none;
+            animation: slideUp 0.4s ease;
+        }
+
+        .cookie-banner.show {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .cookie-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cookie-text {
+            flex: 1;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .cookie-text a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .cookie-text a:hover {
+            text-decoration: underline;
+        }
+
+        .cookie-actions {
+            display: flex;
+            gap: 0.6rem;
+            flex-shrink: 0;
+        }
+
+        .cookie-btn {
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 0.55rem 1.25rem;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .cookie-btn-accept {
+            background: var(--accent-color);
+            color: var(--white);
+        }
+
+        .cookie-btn-accept:hover {
+            background: #4338ca;
+        }
+
+        .cookie-btn-reject {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+        }
+
+        .cookie-btn-reject:hover {
+            border-color: var(--text-muted);
+            color: var(--text);
+        }
+
+        @media (max-width: 900px) {
+            .cookie-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cookie-actions {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* ======================== SCROLL REVEAL ======================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ======================== RESPONSIVE ======================== */
+        @media (max-width: 900px) {
+            .two-ways-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-screen,
+            .demo-screen.reverse {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-screen.reverse .app-window {
+                order: -1;
+            }
+
+            .steps-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                max-width: 440px;
+            }
+
+            .cost-compare {
+                flex-direction: column;
+                max-width: 400px;
+            }
+
+            .cost-vs {
+                justify-content: center;
+                padding: 0.75rem 0;
+            }
+
+            .savings-bar-inner {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .savings-divider {
+                width: 60px;
+                height: 1px;
+            }
+
+            .credit-examples-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .free-trial {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .comparison-row {
+                grid-template-columns: 2fr 1fr 1fr;
+            }
+
+            .comparison-cell {
+                padding: 0.85rem 0.75rem;
+                font-size: 0.82rem;
+            }
+
+            .nav-links a:not(.btn) {
+                display: none;
+            }
+
+            .footer-top {
+                flex-direction: column;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav id="nav">
+        <a href="#" class="nav-logo">Laborics<span>.</span> <span class="nav-slogan">Delegate. Done.</span></a>
+        <div class="nav-links">
+            <a href="#how-it-works">How it works</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#faq">FAQ</a>
+            <a href="#" class="nav-login">Log in</a>
+            <a href="#" class="btn btn-signup">Sign up free</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-tag">Your first AI employee</div>
+            <h1>Create and format documents <em>in one place</em></h1>
+            <p class="hero-sub">
+                Write with AI, format instantly, download a polished .docx.
+                No copy-paste. No manual formatting. Just delegate and get results.
+            </p>
+            <div class="hero-actions">
+                <a href="#pricing" class="btn btn-primary">Get started</a>
+                <a href="#demo" class="btn btn-outline">See it in action</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- DEMO -->
+    <section class="demo" id="demo">
+        <div class="container">
+            <div class="reveal">
+                <div class="section-tag">See it in action</div>
+                <h2 class="section-title">Your document workspace</h2>
+                <p class="section-desc">
+                    Write, style, and export — all inside one interface. Here's what the experience looks like.
+                </p>
+            </div>
+
+            <div class="demo-screens">
+
+                <!-- Screen 1: Chat / Write -->
+                <div class="demo-screen reveal">
+                    <div class="demo-screen-text">
+                        <div class="step-label"><span class="step-num">1</span> Write</div>
+                        <h3>Create your document through conversation</h3>
+                        <p>Describe what you need — a policy, contract, report, or proposal. Your AI employee writes the content, asks clarifying questions, and builds the document iteratively. Just like working with a real colleague.</p>
+                    </div>
+                    <div class="app-window">
+                        <div class="app-toolbar">
+                            <div class="app-dot"></div>
+                            <div class="app-dot"></div>
+                            <div class="app-dot"></div>
+                            <span class="app-toolbar-title">Laborics — New document</span>
+                        </div>
+                        <div class="app-content screen-chat">
+                            <div class="s-msg user">Write a privacy policy for my SaaS startup. Must include GDPR, data retention, and third-party sharing sections.</div>
+                            <div class="s-msg ai">Got it. I'll create a comprehensive privacy policy. A few questions: What's your company name, and do you process any special category data (health, biometric, etc.)?</div>
+                            <div class="s-msg user">Company is Acme Inc. No special categories, just standard user data — emails, usage analytics.</div>
+                            <div class="s-msg ai">Writing your privacy policy now. I'll include 8 sections: data collection, legal basis, GDPR rights, retention policy, third-party sharing, cookies, security measures, and contact info. One moment...</div>
+                            <div class="s-input">
+                                <div class="s-input-field">Add a section about AI data processing...</div>
+                                <div class="s-input-btn">Send</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Screen 2: Style setup -->
+                <div class="demo-screen reverse reveal">
+                    <div class="app-window">
+                        <div class="app-toolbar">
+                            <div class="app-dot"></div>
+                            <div class="app-dot"></div>
+                            <div class="app-dot"></div>
+                            <span class="app-toolbar-title">Laborics — Formatting</span>
+                        </div>
+                        <div class="app-content screen-style">
+                            <div class="style-section-label">Choose a formatting theme</div>
+                            <div class="style-themes">
+                                <div class="style-theme active">
+                                    <div class="style-theme-preview"></div>
+                                    <div class="style-theme-name">Corporate</div>
+                                </div>
+                                <div class="style-theme">
+                                    <div class="style-theme-preview"></div>
+                                    <div class="style-theme-name">Legal Blue</div>
+                                </div>
+                                <div class="style-theme">
+                                    <div class="style-theme-preview"></div>
+                                    <div class="style-theme-name">Modern</div>
+                                </div>
+                            </div>
+                            <div class="style-or">or</div>
+                            <div class="style-upload">
+                                <div class="style-upload-icon">&#8593;</div>
+                                <div class="style-upload-text"><strong>Upload a sample document</strong><br>We'll match its formatting style</div>
+                            </div>
+                            <div class="style-section-label" style="margin-top: 0.25rem;">Additional instructions</div>
+                            <div class="s-input" style="margin-top: 0">
+                                <div class="s-input-field">Add multi-level lists under H2 headings, number all sections...</div>
+                                <div class="s-input-btn">Apply</div>
+                            </div>
+                            <div class="s-msg ai" style="max-width: 100%; align-self: stretch; margin-top: 0.25rem;">Got it. Corporate theme + multi-level numbered lists under every H2, all sections numbered (1, 1.1, 1.1.1). Adding cover page and TOC. Processing...</div>
+                        </div>
+                    </div>
+                    <div class="demo-screen-text">
+                        <div class="step-label"><span class="step-num">2</span> Style</div>
+                        <h3>Pick a theme or upload your own example</h3>
+                        <p>Choose from built-in formatting themes — or upload any .docx file as a reference. Your AI employee will match its style: fonts, headings, colors, spacing. Your brand, your rules.</p>
+                    </div>
+                </div>
+
+                <!-- Screen 3: Result / Storage -->
+                <div class="demo-screen reveal">
+                    <div class="demo-screen-text">
+                        <div class="step-label"><span class="step-num">3</span> Done</div>
+                        <h3>Formatted document lands in your storage</h3>
+                        <p>Your polished .docx appears in your personal cloud storage. Download it, share a link, or send it back for revisions — your employee will iterate until you're satisfied.</p>
+                    </div>
+                    <div class="app-window">
+                        <div class="app-toolbar">
+                            <div class="app-dot"></div>
+                            <div class="app-dot"></div>
+                            <div class="app-dot"></div>
+                            <span class="app-toolbar-title">Laborics — My documents</span>
+                        </div>
+                        <div class="app-content screen-storage">
+                            <div class="storage-breadcrumb">
+                                <span>My Documents</span> / Projects / Acme Inc
+                            </div>
+                            <div class="storage-file">
+                                <div class="file-icon folder">&#128193;</div>
+                                <div class="file-info">
+                                    <div class="file-name">Contracts</div>
+                                    <div class="file-meta">3 files</div>
+                                </div>
+                            </div>
+                            <div class="storage-file highlight">
+                                <div class="file-icon docx">.docx</div>
+                                <div class="file-info">
+                                    <div class="file-name">Acme_Inc_Privacy_Policy_v1.docx</div>
+                                    <div class="file-meta">12 pages &middot; 48 KB &middot; just now</div>
+                                </div>
+                                <div class="file-badge">NEW</div>
+                            </div>
+                            <div class="storage-file">
+                                <div class="file-icon pdf">.pdf</div>
+                                <div class="file-info">
+                                    <div class="file-name">Acme_Inc_Privacy_Policy_v1.pdf</div>
+                                    <div class="file-meta">12 pages &middot; 156 KB &middot; just now</div>
+                                </div>
+                            </div>
+                            <div class="storage-file">
+                                <div class="file-icon docx">.docx</div>
+                                <div class="file-info">
+                                    <div class="file-name">Terms_of_Service_Draft.docx</div>
+                                    <div class="file-meta">8 pages &middot; 32 KB &middot; 2 days ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- TWO WAYS -->
+    <div class="section-divider"></div>
+    <section id="how-it-works">
+        <div class="container">
+            <div class="reveal">
+                <div class="section-tag">Two ways to work</div>
+                <h2 class="section-title">Create from scratch or<br>upload your draft</h2>
+                <p class="section-desc">
+                    Your AI employee handles both scenarios — just like a real assistant would.
+                </p>
+            </div>
+
+            <div class="two-ways-grid reveal">
+                <div class="way-card">
+                    <div class="way-number">OPTION A</div>
+                    <div class="way-icon">&#9998;</div>
+                    <div class="way-title">Create & format</div>
+                    <div class="way-desc">
+                        Write your document from scratch, right in Laborics. Describe what you need — your employee writes the content, applies formatting, and exports a polished .docx. Like ChatGPT, but the output is a ready-to-use document.
+                    </div>
+                </div>
+
+                <div class="way-card">
+                    <div class="way-number">OPTION B</div>
+                    <div class="way-icon">&#8593;</div>
+                    <div class="way-title">Upload & reformat</div>
+                    <div class="way-desc">
+                        Already have a draft or raw AI output? Upload your .docx file and describe the formatting you need. Your employee restructures, styles, and polishes the document — then sends it back.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <div class="section-divider"></div>
+    <section class="bg-alt">
+        <div class="container">
+            <div class="reveal">
+                <div class="section-tag">How it works</div>
+                <h2 class="section-title">Three steps to a<br>polished document</h2>
+            </div>
+
+            <div class="steps-grid reveal">
+                <div class="step-card">
+                    <div class="step-number">STEP 01</div>
+                    <div class="step-icon">&#128172;</div>
+                    <div class="step-title">Describe or upload</div>
+                    <div class="step-desc">
+                        Tell your employee what to write — or upload an existing .docx that needs formatting. Add any requirements: style, structure, branding.
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">STEP 02</div>
+                    <div class="step-icon">&#9881;</div>
+                    <div class="step-title">AI employee works</div>
+                    <div class="step-desc">
+                        Your employee creates or reformats the document: headings, tables, fonts, spacing, cover pages, table of contents — all handled.
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">STEP 03</div>
+                    <div class="step-icon">&#10003;</div>
+                    <div class="step-title">Download or iterate</div>
+                    <div class="step-desc">
+                        Get your polished .docx file. Need changes? Just tell your employee — they revise until you're happy. No extra cost.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPARISON VS CHATGPT -->
+    <div class="section-divider"></div>
+    <section class="comparison">
+        <div class="container">
+            <div class="reveal">
+                <div class="section-tag">Laborics vs ChatGPT</div>
+                <h2 class="section-title">ChatGPT writes text.<br>Laborics delivers documents.</h2>
+            </div>
+
+            <div class="comparison-table reveal">
+                <div class="comparison-row header">
+                    <div class="comparison-cell">Feature</div>
+                    <div class="comparison-cell">ChatGPT</div>
+                    <div class="comparison-cell">Laborics</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Generate text with AI</div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Export as formatted .docx</div>
+                    <div class="comparison-cell"><span class="cross">&#10005;</span></div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Custom fonts, styles & branding</div>
+                    <div class="comparison-cell"><span class="cross">&#10005;</span></div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Tables, TOC, cover pages</div>
+                    <div class="comparison-cell"><span class="cross">&#10005;</span></div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Upload & reformat existing docs</div>
+                    <div class="comparison-cell"><span class="cross">&#10005;</span></div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Style matching from a reference file</div>
+                    <div class="comparison-cell"><span class="cross">&#10005;</span></div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">Cloud storage for your documents</div>
+                    <div class="comparison-cell"><span class="cross">&#10005;</span></div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">PDF export alongside .docx</div>
+                    <div class="comparison-cell"><span class="cross">&#10005;</span></div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell">No copy-paste workflow</div>
+                    <div class="comparison-cell"><span class="cross">&#10005;</span></div>
+                    <div class="comparison-cell"><span class="check">&#10003;</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPARISON VS MANUAL -->
+    <div class="section-divider"></div>
+    <section>
+        <div class="container">
+            <div class="reveal">
+                <div class="section-tag">Laborics vs manual work</div>
+                <h2 class="section-title">Save time and money<br>on every document</h2>
+                <p class="section-desc">A 10-page document with text, tables, and formatting — here's how the numbers compare.</p>
+            </div>
+
+            <div class="cost-compare reveal">
+                <div class="cost-card manual">
+                    <div class="cost-card-label">Manual formatting</div>
+                    <div class="cost-card-price">&euro;8–13</div>
+                    <div class="cost-card-detail">30–60 min of employee time</div>
+                    <ul class="cost-card-list">
+                        <li>Available during business hours</li>
+                        <li>One task at a time</li>
+                        <li>Inconsistent results</li>
+                        <li>Revisions take more time</li>
+                    </ul>
+                </div>
+                <div class="cost-vs">vs</div>
+                <div class="cost-card laborics">
+                    <div class="cost-card-label">Laborics</div>
+                    <div class="cost-card-price">&euro;6</div>
+                    <div class="cost-card-detail">~60 credits, ready in minutes</div>
+                    <ul class="cost-card-list">
+                        <li>Available 24/7</li>
+                        <li>Multiple documents in parallel</li>
+                        <li>Consistent quality every time</li>
+                        <li>Unlimited revisions included</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="savings-bar reveal">
+                <div class="savings-bar-inner">
+                    <div class="savings-stat">
+                        <div class="savings-stat-number">40–60%</div>
+                        <div class="savings-stat-label">cheaper than manual work</div>
+                    </div>
+                    <div class="savings-divider"></div>
+                    <div class="savings-stat">
+                        <div class="savings-stat-number">10x</div>
+                        <div class="savings-stat-label">faster turnaround</div>
+                    </div>
+                    <div class="savings-divider"></div>
+                    <div class="savings-stat">
+                        <div class="savings-stat-number">24/7</div>
+                        <div class="savings-stat-label">always available</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <div class="section-divider"></div>
+    <section id="pricing" class="bg-alt">
+        <div class="container">
+            <div class="reveal">
+                <div class="section-tag">Pricing</div>
+                <h2 class="section-title">Simple credit packages</h2>
+                <p class="section-desc">
+                    Buy credits, spend them on any task. You always see an estimate before work starts — no surprises.
+                </p>
+            </div>
+
+            <!-- Free trial banner -->
+            <div class="free-trial reveal">
+                <div class="free-trial-icon">&#9889;</div>
+                <div class="free-trial-text">
+                    <strong>Try it free.</strong> Add your card and get <strong>50 credits</strong> to test with real documents — no charge until you buy a package.
+                </div>
+                <a href="#" class="btn btn-accent">Start free</a>
+            </div>
+
+            <div class="pricing-grid reveal">
+                <div class="price-card">
+                    <div class="price-name">Starter</div>
+                    <div class="price-docs">50 credits</div>
+                    <div class="price-amount">&euro;5</div>
+                    <div class="price-per">&euro;0.10 per credit &middot; excl. VAT</div>
+                    <ul class="price-features">
+                        <li>Create or upload .docx</li>
+                        <li>Full formatting & styling</li>
+                        <li>Revisions included</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline">Get Starter</a>
+                </div>
+
+                <div class="price-card featured">
+                    <div class="price-name">Standard</div>
+                    <div class="price-docs">170 credits</div>
+                    <div class="price-amount">&euro;15</div>
+                    <div class="price-per">&euro;0.088 per credit <span class="price-save">save 12%</span> &middot; excl. VAT</div>
+                    <ul class="price-features">
+                        <li>Everything in Starter</li>
+                        <li>Brand template support</li>
+                        <li>Priority processing</li>
+                    </ul>
+                    <a href="#" class="btn btn-accent">Get Standard</a>
+                </div>
+
+                <div class="price-card">
+                    <div class="price-name">Pro</div>
+                    <div class="price-docs">625 credits</div>
+                    <div class="price-amount">&euro;50</div>
+                    <div class="price-per">&euro;0.08 per credit <span class="price-save">save 20%</span> &middot; excl. VAT</div>
+                    <ul class="price-features">
+                        <li>Everything in Standard</li>
+                        <li>Dedicated AI employee</li>
+                        <li>Team access</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline">Get Pro</a>
+                </div>
+            </div>
+
+            <div class="topup-note reveal">
+                You can top up your balance at any time with any amount of credits.
+            </div>
+
+            <!-- Credit examples -->
+            <div class="credit-examples reveal">
+                <div class="credit-examples-title">How many credits does a task use?</div>
+                <div class="credit-examples-grid">
+                    <div class="credit-example">
+                        <div class="credit-example-amount">~20</div>
+                        <div class="credit-example-desc">Format a 5-page document</div>
+                    </div>
+                    <div class="credit-example">
+                        <div class="credit-example-amount">~60</div>
+                        <div class="credit-example-desc">Write & format a 10-page report</div>
+                    </div>
+                    <div class="credit-example">
+                        <div class="credit-example-amount">~100</div>
+                        <div class="credit-example-desc">Create a 15-page policy with TOC</div>
+                    </div>
+                    <div class="credit-example">
+                        <div class="credit-example-amount">~180</div>
+                        <div class="credit-example-desc">Reformat a 50-page report with tables</div>
+                    </div>
+                </div>
+                <div class="credit-examples-note">Credits are charged based on actual usage. They never expire — use them at your own pace.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <div class="section-divider"></div>
+    <section id="faq">
+        <div class="container">
+            <div class="reveal">
+                <div class="section-tag">FAQ</div>
+                <h2 class="section-title">Common questions</h2>
+            </div>
+
+            <div class="faq-list reveal">
+                <div class="faq-item">
+                    <button class="faq-q">How is this different from ChatGPT or Claude?</button>
+                    <div class="faq-a">
+                        <p>ChatGPT and Claude generate raw text that you then copy-paste into Word and spend time formatting manually. Laborics skips all of that — you describe what you need, and your AI employee delivers a ready-to-use .docx file with proper styles, headings, tables, and layout. The output is a finished document, not a chat response.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">Can I create documents from scratch or only reformat existing ones?</button>
+                    <div class="faq-a">
+                        <p>Both. You can describe a document in plain language — "write me a 5-page investment proposal for a fintech startup" — and get a fully written and formatted .docx. Or upload an existing document and ask your AI employee to restyle it, fix the layout, apply your brand guidelines, or restructure the content.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">What if the result isn't exactly what I want?</button>
+                    <div class="faq-a">
+                        <p>You can iterate. After receiving the document, give feedback in plain language — "make the headings bigger", "add a table of contents", "change the tone to more formal" — and your AI employee will revise it. Each iteration uses credits, but adjustments are typically very lightweight.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">What file formats do you support?</button>
+                    <div class="faq-a">
+                        <p>Currently we support .docx (Microsoft Word) for both input and output, with PDF export available as well. We're expanding format support based on what our users need most.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">How fast will I get my document?</button>
+                    <div class="faq-a">
+                        <p>Most documents are ready within a few minutes. Longer or more complex documents — like a 30-page report with tables and charts — may take a bit more, but you'll typically have results much faster than doing it yourself.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">Do credits expire?</button>
+                    <div class="faq-a">
+                        <p>No. Your credits never expire. Buy a package now and use them whenever you need — no rush, no deadlines.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">Is my data secure?</button>
+                    <div class="faq-a">
+                        <p>Yes. Your documents are encrypted in transit and at rest. We process them in isolated environments and never use your content for AI training. All your files are stored in your personal workspace — you have full control and can delete them at any time from your dashboard.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">Can I use Laborics for any type of document?</button>
+                    <div class="faq-a">
+                        <p>Yes — contracts, proposals, reports, policies, presentations, manuals, letters, invoices, and more. If it can be a .docx, your AI employee can create or format it. We work across all industries and document types.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="final-cta">
+        <div class="container reveal">
+            <div class="section-tag">Ready to start?</div>
+            <h2 class="section-title">Stop formatting.<br>Start delegating.</h2>
+            <p class="section-desc">
+                Your AI employee is ready. Write, format, and download polished documents — all in one place.
+            </p>
+            <a href="#pricing" class="btn btn-accent">Get started now</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-top">
+        <div class="footer-company">
+            <div class="footer-brand">Laborics<span>.</span> Delegate. Done.</div>
+            <div class="footer-legal-info">
+                Provided by <strong>Reload dev s.r.o.</strong><br>
+                IČO: 24831905 &middot; DIČ: CZ699006763<br>
+                Vinohradská 2133/138, Vinohrady, 130 00 Praha 3<br>
+                Registered in the Commercial Register at the Municipal Court in Prague
+            </div>
+            <div class="footer-contact">
+                <a href="mailto:hello@laborics.com">hello@laborics.com</a>
+            </div>
+        </div>
+        <div class="footer-links">
+            <div class="footer-links-col">
+                <div class="footer-links-title">Legal</div>
+                <a href="terms.html">Terms of Service</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="cookies.html">Cookie Policy</a>
+            </div>
+            <div class="footer-links-col">
+                <div class="footer-links-title">Language</div>
+                <a href="index.html"><strong>English</strong></a>
+                <a href="cs.html">Česky</a>
+            </div>
+        </div>
+        </div>
+        <div class="footer-bottom">
+            All prices are listed excluding VAT. VAT will be applied at checkout based on your location. EU businesses with a valid VAT ID can purchase VAT-free.
+        </div>
+    </footer>
+
+    <!-- COOKIE BANNER -->
+    <div class="cookie-banner" id="cookieBanner">
+        <div class="cookie-inner">
+            <div class="cookie-text">
+                We use essential cookies to make the site work. We'd also like to use analytics cookies to understand how you use Laborics and improve the experience. <a href="cookies.html">Learn more</a>
+            </div>
+            <div class="cookie-actions">
+                <button class="cookie-btn cookie-btn-reject" onclick="cookieConsent('reject')">Reject optional</button>
+                <button class="cookie-btn cookie-btn-accept" onclick="cookieConsent('accept')">Accept all</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cookie consent
+        function cookieConsent(choice) {
+            localStorage.setItem('cookie_consent', choice);
+            document.getElementById('cookieBanner').classList.remove('show');
+        }
+
+        if (!localStorage.getItem('cookie_consent')) {
+            document.getElementById('cookieBanner').classList.add('show');
+        }
+
+        // Nav scroll effect
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Scroll reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        reveals.forEach(el => observer.observe(el));
+
+        // FAQ toggle
+        document.querySelectorAll('.faq-q').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+    </script>
+
+</body>
+</html>
