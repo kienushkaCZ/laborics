@@ -1,0 +1,26 @@
+name: CD
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [master]
+jobs:
+  deploy-prod:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to prod
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: deploy
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          command_timeout: 5m
+          script: |
+            cd /opt/laborics
+            git pull origin master || exit 1
+            npm install || exit 1
+            npm run build || exit 1
+            sudo systemctl restart laborics-web
+            sleep 5
+            curl -sf http://localhost:4001/health || exit 1
